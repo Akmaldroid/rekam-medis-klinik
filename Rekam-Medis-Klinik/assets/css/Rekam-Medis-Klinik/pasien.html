@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Pasien</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<h1>Data Pasien</h1>
+
+<div class="form-wrapper">
+  <div class="form-card">
+    <h2>Tambah Pasien</h2>
+
+    <input id="nama_pasien" type="text" placeholder="Nama Pasien">
+    <input id="nik" type="text" placeholder="NIK">
+    
+    <select id="jenis_kelamin">
+      <option value="" disabled selected>Jenis Kelamin</option>
+      <option value="L">Laki-laki</option>
+      <option value="P">Perempuan</option>
+    </select>
+    
+    <input id="tanggal_lahir" type="date">
+    <input id="alamat" type="text" placeholder="Alamat">
+    <input id="no_telp" type="text" placeholder="No Telepon">
+
+    <button onclick="tambahPasien()">Simpan</button>
+  </div>
+</div>
+
+
+<table border="1" id="tablePasien">
+  <thead>
+      <tr>
+        <th>ID</th><th>Nama</th><th>NIK</th>
+        <th>JK</th><th>Tgl Lahir</th>
+        <th>Alamat</th><th>No Telp</th><th>Aksi</th>
+      </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<script type="module" src="js/pasien.js"></script>
+</body>
+</html>
