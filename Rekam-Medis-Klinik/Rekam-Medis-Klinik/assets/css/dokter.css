@@ -1,0 +1,151 @@
+/* ===== GLOBAL ===== */
+body {
+    font-family: Arial, sans-serif;
+    background: #eef7fa;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+}
+
+h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #0b5fa1;
+    margin-bottom: 20px;
+    animation: fadeIn 0.8s ease;
+}
+
+h2 img {
+    width: 40px;
+}
+
+button {
+    background: linear-gradient(90deg, #0b7ec8, #0ca48a);
+    color: white;
+    border: none;
+    padding: 10px 18px 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.25s;
+    font-size: 15px;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+.btn-back {
+    padding: 8px 14px !important;
+    font-size: 14px !important;
+    border-radius: 8px;
+}
+
+.btn-back img {
+    width: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+/* ===== FORM DOKTER (same style as pasien) ===== */
+form {
+    width: 500px;
+    margin: 30px auto 45px;
+    background: white;
+    padding: 20px 45px 25px 25px;
+    border-radius: 14px;
+    box-shadow: 0px 6px 22px rgba(0,0,0,0.08);
+    text-align: left;
+    animation: floatUp 0.7s ease;
+}
+
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+form label {
+    display: block;
+    margin-top: 14px;
+    color: #0b5fa1;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border: 1px solid #c5d7e4;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+form input:focus {
+    border-color: #0a97c4;
+    box-shadow: 0 0 0 3px rgba(10, 151, 196, 0.18);
+    outline: none;
+}
+
+/* Tombol Submit */
+form button[type="submit"] {
+    width: 105.9%;
+    margin-top: 22px;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #0b8ac8, #0aa38e);
+    font-size: 17px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+/* ===== TABLE SECTION ===== */
+h3 {
+    color: #0b5fa1;
+    margin-top: 30px;
+}
+
+table {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 900px;
+    animation: fadeIn 0.8s ease;
+}
+
+table th {
+    background: #0b8ac8;
+    color: white;
+    padding: 12px;
+    font-size: 15px;
+}
+
+table td {
+    padding: 10px;
+    border: 1px solid #c9e3ef;
+    background: white;
+}
+
+table tr:nth-child(even) {
+    background: #f3f9fc;
+}
+
+table tr:hover {
+    background: #e4f3f9;
+    transition: 0.2s;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

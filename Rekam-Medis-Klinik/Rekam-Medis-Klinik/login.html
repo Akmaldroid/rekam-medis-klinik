@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="assets/css/login.css">
+    </head>
+    <body>
+
+        <h2>Login Sistem Rekam Medis</h2>
+
+        <div class="login-box">
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button id="btnLogin">
+                <img src="assets/image/login.png" alt="Login Icon">
+                Login</button><br><br>
+        </div>
+        <button onclick="window.location.href='index.html'">
+            <img src="assets/image/kembali.png" alt="Home Icon">
+            Kembali ke Beranda</button>
+
+        <script type="module">
+            import { loginUser } from "./assets/js/auth.js";
+
+            document.getElementById("btnLogin").addEventListener("click", async () => {
+                const username = document.getElementById("username").value;
+                const password = document.getElementById("password").value;
+
+                const res = await loginUser(username, password);
+
+                if (!res.success) {
+                    alert(res.message);
+                    return;
+                }
+
+                // redirect berdasarkan role
+                window.location.href = "dashboard.html";
+            });
+        </script>
+
+        <footer>
+            <p>© 2025 Sistem Rekam Medis Klinik</p>
+        </footer>
+
+        <script type="module" src="assets/js/login.js"></script>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Pasien</title>
+    <link rel="stylesheet" href="assets/css/pasien.css">
+</head>
+<body>
+
+    <h2>
+        <img src="assets/image/pasien.png" alt="Pasien Icon">Data Pasien</h2>
+
+    <button onclick="window.location.href='dashboard.html'">
+        <img src="assets/image/kembali.png" alt="Home Icon">
+        Kembali ke Dashboard</button><br><br>
+    <!-- FORM PASIEN -->
+    <form id="formPasien">
+        <input type="hidden" id="id_pasien">
+
+        <label>Nama Pasien</label>
+        <input type="text" id="nama_pasien">
+
+        <label>NIK</label>
+        <input type="text" id="nik">
+
+        <label>Jenis Kelamin</label>
+        <select id="jenis_kelamin">
+            <option value="">-- pilih --</option>
+            <option value="Laki-laki">Laki-laki</option>
+            <option value="Perempuan">Perempuan</option>
+        </select>
+
+        <label>Tanggal Lahir</label>
+        <input type="date" id="tanggal_lahir">
+
+        <label>Alamat</label>
+        <textarea id="alamat"></textarea>
+
+        <label>No. Telp</label>
+        <input type="text" id="no_telp">
+
+        <button type="submit">Simpan</button>
+    </form>
+
+    <!-- PAGINATION CONTROL -->
+    <div class="pagination-control">
+        <label>Tampilkan:</label>
+        <select id="perPageSelect">
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+        </select>
+        <span>data per halaman</span>
+    </div>
+
+    <!-- TABLE -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nama</th>
+                <th>NIK</th>
+                <th>Jenis Kelamin</th>
+                <th>Tgl Lahir</th>
+                <th>Alamat</th>
+                <th>No Telp</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="tabelPasien"></tbody>
+    </table>
+
+    <!-- PAGINATION BUTTONS -->
+    <div class="pagination-buttons">
+        <button id="prevBtn">Sebelumnya</button>
+        <span id="pageInfo"></span>
+        <button id="nextBtn">Berikutnya</button>
+    </div>
+
+    <footer>
+        <p>© 2025 Sistem Rekam Medis Klinik</p>
+    </footer>
+
+    <script type="module">
+        import { protectPage } from "./assets/js/guard.js";
+        protectPage(['admin', 'petugas']);
+    </script>
+
+    <script type="module" src="assets/js/supabase.js"></script>
+    <script type="module" src="assets/js/guard.js"></script>
+    <script type="module" src="assets/js/pasien.js"></script>
+
+</body>
+</html>
