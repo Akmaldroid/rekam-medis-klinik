@@ -1,0 +1,198 @@
+/* ===== GLOBAL ===== */
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: #f0f7ff;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== TITLE ===== */
+h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    color: #0a6ab7;
+    font-size: 26px;
+    margin-top: 25px;
+}
+
+h2 img {
+    width: 40px;
+}
+
+/* ===== BUTTON KEMBALI ===== */
+button {
+    background: linear-gradient(90deg, #0b7ec8, #0ca48a);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.25s;
+    font-size: 15px;
+}
+
+button img {
+    width: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+}
+
+/* ===== FORM KUNJUNGAN ===== */
+form {
+    width: 500px;
+    margin: 20px auto 35px;
+    background: white;
+    padding: 10px 45px 25px 25px;
+    border-radius: 14px;
+    box-shadow: 0px 6px 22px rgba(0,0,0,0.08);
+    text-align: left;
+    animation: floatUp 0.7s ease;
+}
+
+@keyframes floatUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+form label {
+    display: block;
+    margin-top: 14px;
+    color: #0b5fa1;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+}
+
+/* Input, Select, Textarea */
+form input,
+form select,
+form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 6px;
+    border: 1px solid #c5d7e4;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+    border-color: #0a97c4;
+    box-shadow: 0 0 0 3px rgba(10, 151, 196, 0.18);
+    outline: none;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+/* Tombol submit */
+form button[type="submit"] {
+    width: 106%;
+    margin-top: 22px;
+    padding: 12px 0;
+    background: linear-gradient(90deg, #0b8ac8, #0aa38e);
+    font-size: 17px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.25s ease;
+}
+
+form button[type="submit"]:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+}
+
+/* ===== AUTOCOMPLETE (dipindah dari HTML) ===== */
+.autocomplete-list {
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background: white;
+    position: absolute;
+    width: 88%;             /* mengikuti width input */
+    z-index: 10;
+    display: none;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.autocomplete-item {
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: 0.15s ease;
+}
+
+.autocomplete-item:hover {
+    background: #e9f5ff;
+}
+
+h3 {
+    color: #0a6ab7;
+    margin-bottom: 12px;
+    font-size: 22px;
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 95%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    animation: fadeIn 0.9s ease;
+}
+
+table th {
+    background: linear-gradient(90deg, #0c7dc4, #0aa38a);
+    color: white;
+    padding: 12px 6px;
+    font-size: 15px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #eef2f7;
+    font-size: 14px;
+}
+
+table tr:hover {
+    background: #f5fbff;
+    transition: 0.2s;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+    form {
+        width: 90%;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    .autocomplete-list {
+        width: 95%;
+    }
+}
+

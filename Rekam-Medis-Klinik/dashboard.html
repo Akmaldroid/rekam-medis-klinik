@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Dashboard</title>
+        <link rel="stylesheet" href="assets/css/dashboard.css">
+    </head>
+
+    <body>
+        <header>
+            <h1>Dashboard Sistem Rekam Medis</h1>
+
+            <div id="user-greeting">
+                Halo, <span id="username-display">User</span>
+            </div>
+        </header>
+
+        <div class="layout">
+            
+            <!-- SIDEBAR -->
+            <nav>
+                <a href="pasien.html" data-info="Informasi data pasien berisi identitas dan kelengkapan biodata pasien.">
+                    <img src="assets/image/pasien.png"> Data Pasien
+                </a>
+                <a href="dokter.html" data-info="Data dokter mencakup nama, spesialisasi, dan nomor registrasi.">
+                    <img src="assets/image/dokter.png"> Data Dokter
+                </a>
+                <a href="poli.html" data-info="Data poli menampilkan jenis layanan klinik dan ruang perawatan.">
+                    <img src="assets/image/poli.png"> Data Poli
+                </a>
+                <a href="obat.html" data-info="Informasi daftar obat termasuk stok, harga, dan kategori obat.">
+                    <img src="assets/image/obat.png"> Data Obat
+                </a>
+                <a href="kunjungan.html" data-info="Kunjungan berisi catatan pasien datang ke klinik pada hari tertentu.">
+                    <img src="assets/image/kunjungan.png"> Kunjungan
+                </a>
+                <a href="rekam-medis.html" data-info="Rekam medis berisi pemeriksaan, diagnosis, dan tindakan pasien.">
+                    <img src="assets/image/rekam medis.png"> Rekam Medis
+                </a>
+            </nav>
+
+            <!-- PANEL KANAN -->
+            <div id="info-panel">
+                <h2 id="info-title">Selamat Datang!</h2>
+                <p id="info-text">Pilih menu di sebelah kiri untuk melihat informasi lebih detail.</p>
+            </div>
+
+        </div>
+
+        <button id="btnLogout" class="logout-btn">
+            <img src="assets/image/logout.png"> Logout
+        </button>
+
+        <footer>
+            <p>© 2025 Sistem Rekam Medis Klinik</p>
+        </footer>
+        
+        <script type="module" src="assets/js/supabase.js"></script>
+        <script type="module" src="assets/js/guard.js"></script>
+        <script type="module" src="assets/js/auth.js"></script>
+        <script type="module" src="assets/js/dashboard.js"></script>
+    </body>
+
+</html>

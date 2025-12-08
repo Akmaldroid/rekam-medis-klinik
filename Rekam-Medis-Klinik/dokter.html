@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Dokter</title>
+    <link rel="stylesheet" href="assets/css/dokter.css">
+</head>
+<body>
+
+    <h2>
+        <img src="assets/image/dokter.png" alt="Dokter Icon">Data Dokter</h2>
+
+        <button class="btn-back" onclick="location.href='dashboard.html'">
+            <img src="assets/image/kembali.png">Kembali ke Dashboard
+        </button>
+
+        <form id="formDokter">
+            <input type="hidden" id="id_dokter">
+
+            <label>Nama Dokter</label>
+            <input type="text" id="nama_dokter" required>
+
+            <label>Spesialisasi</label>
+            <input type="text" id="spesialisasi" required>
+
+            <label>No STR</label>
+            <input type="text" id="no_str" required>
+
+            <label>No Telp</label>
+            <input type="text" id="no_telp" required>
+
+            <button type="submit">Simpan</button>
+        </form>
+
+    <h3>Daftar Dokter</h3>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th><th>Nama</th><th>Spesialis</th><th>No STR</th><th>No Telp</th><th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="tabelDokter"></tbody>
+    </table>
+
+    <footer>
+        <p>© 2025 Sistem Rekam Medis Klinik</p>
+    </footer>
+
+    <script type="module">
+        import { protectPage } from "./assets/js/guard.js";
+        protectPage(['admin, dokter']);
+    </script>
+
+    <script type="module" src="assets/js/supabase.js"></script>
+    <script type="module" src="assets/js/guard.js"></script>
+    <script type="module" src="assets/js/dokter.js"></script>
+
+</body>
+</html>

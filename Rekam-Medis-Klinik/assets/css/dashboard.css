@@ -1,0 +1,166 @@
+/* ====== HEADER ALA YOUTUBE ====== */
+header {
+    width: 100%;
+    background-color: #23b32a;
+    padding: 17px 0;
+    text-align: center;
+    color: rgb(250, 249, 249);
+    font-size: 18px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    animation: ease-in-down 1.5s ease;
+
+     /* ➕ Tambahan agar elemen bisa diposisikan dengan mudah */
+    display: flex;
+    justify-content: center; /* h1 tetap di tengah */
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+}
+
+#user-greeting {
+    position: absolute;
+    right: 25px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+}
+
+/* ====== LAYOUT UTAMA ====== */
+.layout {
+    display: flex;
+    margin-top: 70px;  /* supaya tidak tertutup header */
+}
+
+/* ====== SIDEBAR ALA FACEBOOK ====== */
+nav {
+    width: 250px;
+    background-color: #C8E6C9;
+    padding: 15px;
+    height: calc(100vh - 70px);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 70px;
+    left: 0;
+    overflow-y: auto;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 12px;
+    background: rgb(61, 237, 102);
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1b1b1b;
+    transition: 1.25s ease;
+}
+
+nav a img {
+    width: 28px;
+    height: 28px;
+}
+
+nav a:hover {
+    background: #04d2f6;
+    transform: translateX(4px);
+}
+
+/* ====== PANEL KANAN (Konten) ====== */
+#info-panel {
+    margin-left: 270px; 
+    padding: 25px;
+    width: calc(100% - 270px);
+}
+
+#info-panel h2 {
+    font-size: 24px;
+    color: #2E7D32;
+    margin-bottom: 10px;
+}
+
+#info-panel p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* ====== ANIMASI TYPEWRITER ====== */
+#info-text {
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #2E7D32;
+    font-family: monospace;
+    width: max-content;
+}
+
+/* ====== BUTTON LOGOUT ====== */
+#btnLogout {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #FF6F60;
+    color: white;
+    border: none;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    transition: .25s ease;
+}
+
+#btnLogout img {
+    width: 20px;
+}
+
+#btnLogout:hover {
+    background-color: #E55C4E;
+    transform: translateY(-2px);
+}
+
+/* ====== FOOTER ====== */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    color: #000000;
+    position: fixed;
+    bottom: 0;
+    width: calc(100% - 350px);
+    margin-left: 250px;
+}
+/* ====== KEYFRAMES ANIMASI ====== */
+@keyframes ease-in-down {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes blink {
+    0%, 100% {
+        border-color: transparent;
+    }
+    50% {
+        border-color: #2E7D32;
+    }
+}
