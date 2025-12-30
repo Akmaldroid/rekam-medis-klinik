@@ -1,153 +1,157 @@
-/* RESET */
+/* ============================
+   RESET
+============================ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Segoe UI", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 
+/* ============================
+   BODY
+============================ */
 body {
-    background: #03cf66;
-    color: #2b2b2b;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0d6efd, #12b886);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 60px;
+    justify-content: center;
+    color: #2e3a32;
 }
 
-/* TITLE */
+/* ============================
+   TITLE
+============================ */
 h2 {
-    margin-bottom: 25px;
-    color: #fdfdfd;
-    font-weight: 700;
-    letter-spacing: 1px;
-    animation: fadeSlide 0.8s ease-out;
+    margin-bottom: 24px;
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+    animation: fadeInDown 0.8s ease;
+    text-align: center;
 }
 
-/* LOGIN BOX */
+/* ============================
+   LOGIN BOX
+============================ */
 .login-box {
-    background: #fff;
-    padding: 25px 30px 5px 30px;
-    width: 350px;
+    background: #ffffff;
+    padding: 40px 30px 5px 30px;
+    width: 360px;
     border-radius: 18px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
     display: flex;
     flex-direction: column;
-    animation: popIn 0.5s ease-out;
+    gap: 12px;
+    animation: fadeIn 0.8s ease;
 }
 
+/* ============================
+   INPUT
+============================ */
 .login-box input {
-    margin: 10px 0;
-    padding: 13px 15px;
-    border-radius: 10px;
-    border: 1.8px solid #13e38c;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1.6px solid #b7e4c7;
     font-size: 15px;
-    transition: 0.25s;
+    outline: none;
+    background: #fafffb;
+    transition: 0.25s ease;
 }
 
 .login-box input:focus {
-    outline: none;
-    border-color: #00977c;
-    box-shadow: 0 0 6px rgba(0,150,110,0.3);
+    border-color: #1b873f;
+    box-shadow: 0 0 0 3px rgba(27,135,63,0.18);
 }
 
-/* BUTTON LOGIN */
-button#btnLogin {
-    width: 70%;
-    align-self: center;
-    background: #02a44b;
-    color: white;
+/* ============================
+   BUTTON LOGIN
+============================ */
+#btnLogin {
+    margin-top: 30px;
+    background: linear-gradient(90deg, #0a6ab7, #0aa38e);
+    color: #ffffff;
     border: none;
-    padding: 12px;
-    margin-top: 15px;
-    border-radius: 10px;
-    cursor: pointer;
+    padding: 12px 18px;
     font-size: 16px;
-    font-weight: bold;
-
+    border-radius: 14px;
+    cursor: pointer;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     gap: 8px;
-
-    transition: 0.25s;
+    font-weight: 500;
+    width: 65%;
+    align-self: center;
+    transition: 0.25s ease;
 }
 
-button#btnLogin img {
+#btnLogin img {
     width: 20px;
     height: 20px;
-    object-fit: contain;
 }
 
-button#btnLogin:hover {
-    background: #026f97;
+#btnLogin:hover {
     transform: translateY(-2px);
+    filter: brightness(1.05);
 }
 
-/* BUTTON KEMBALI */
-button:not(#btnLogin) {
-    margin-top: 25px;
-    background: #02a44b;
-    border: 2px solid #02a44b;
-    color: #fffefe;
-    padding: 10px 15px;
-    border-radius: 10px;
+/* ============================
+   BUTTON BACK (FIXED & STABLE)
+============================ */
+.btn-back {
+    margin-top: 22px;
+    background: linear-gradient(90deg, #0a6ab7, #0aa38e);
+    border: transparent;
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 14px;
     cursor: pointer;
-    font-size: 14px;
-
     display: inline-flex;
     align-items: center;
     gap: 8px;
-
-    transition: 0.25s;
+    font-size: 14px;
+    transition: 0.25s ease;
 }
 
-button:not(#btnLogin):hover {
-    background: #026f97;
-    border: 2px solid #026f97;
-    transform: translateY(-2px);
-}
-
-button:not(#btnLogin) img {
+.btn-back img {
     width: 18px;
     height: 18px;
     object-fit: contain;
 }
 
-/* ==============================
+.btn-back:hover {
+    background: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+/* ============================
    FOOTER
-============================== */
+============================ */
 footer {
-    text-align: center;
-    padding-bottom: 10px;
+    margin-top: 45px;
     font-size: 0.9rem;
     color: #eef7ef;
     opacity: 0.85;
-    margin-top: 70px;
+    text-align: center;
 }
 
-/* ANIMATIONS */
-@keyframes popIn {
-    from {
-        opacity: 0;
-        transform: scale(0.93);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+/* ============================
+   ANIMATION
+============================ */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes fadeSlide {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-15px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
+
+/* SHAKE ERROR */
 .shake {
     animation: shakeAnim 0.4s ease;
 }

@@ -1,89 +1,89 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Rekam Medis</title>
-    <link rel="stylesheet" href="assets/css/rekam-medis.css">
-</head>
-<body>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Rekam Medis</title>
+        <link rel="stylesheet" href="assets/css/rekam-medis.css">
+    </head>
+    <body>
 
-    <h2>
-        <img src="assets/image/rekam medis.png" alt="Rekam Medis Icon">Input Rekam Medis</h2>
+        <h2>
+            <img src="assets/image/rekam medis.png" alt="Rekam Medis Icon">Input Rekam Medis</h2>
 
-    <button onclick="window.location.href='dashboard.html'">
-        <img src="assets/image/kembali.png" alt="Home Icon">Kembali ke Dashboard</button><br><br>
-    <form id="formRM">
-        <label>Pilih Kunjungan</label>
-        <select id="id_kunjungan" required></select>
+        <button onclick="window.location.href='dashboard.html'">
+            <img src="assets/image/kembali.png" alt="Home Icon">Kembali ke Dashboard</button><br><br>
+        <form id="formRM">
+            <label>Pilih Kunjungan</label>
+            <select id="id_kunjungan" required></select>
 
-        <br><br>
+            <br><br>
 
-        <label>Diagnosa</label>
-        <textarea id="diagnosa"></textarea>
+            <label>Diagnosa</label>
+            <textarea id="diagnosa"></textarea>
 
-        <br><br>
+            <br><br>
 
-        <label>Tindakan</label>
-        <textarea id="tindakan"></textarea>
+            <label>Tindakan</label>
+            <textarea id="tindakan"></textarea>
 
-        <br><br>
+            <br><br>
 
-        <label>Resep Obat</label>
-        <textarea id="resep"></textarea>
+            <label>Resep Obat</label>
+            <textarea id="resep"></textarea>
 
-        <br><br>
+            <br><br>
 
-        <button type="submit">Simpan Rekam Medis</button>
-    </form>
+            <button type="submit">Simpan Rekam Medis</button>
+        </form>
 
-    <h3>Riwayat Rekam Medis</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID RM</th>
-                <th>Kunjungan</th>
-                <th>Pasien</th>
-                <th>Diagnosa</th>
-                <th>Tindakan</th>
-                <th>Resep</th>
-                <th>Tanggal</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody id="tabelRM"></tbody>
-    </table>
+        <h3>Riwayat Rekam Medis</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID RM</th>
+                    <th>Kunjungan</th>
+                    <th>Pasien</th>
+                    <th>Diagnosa</th>
+                    <th>Tindakan</th>
+                    <th>Resep</th>
+                    <th>Tanggal</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tabelRM"></tbody>
+        </table>
 
-    <!-- PAGINATION CONTROL -->
-    <div class="pagination-control">
-        <label>Tampilkan:</label>
-        <select id="perPageSelect">
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-        <span>data per halaman</span>
-    </div>
+        <!-- PAGINATION CONTROL -->
+        <div class="pagination-control">
+            <label>Tampilkan:</label>
+            <select id="perPageSelect">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <span>data per halaman</span>
+        </div>
 
-    <!-- PAGINATION BUTTONS -->
-    <div class="pagination-buttons">
-        <button id="prevBtn">Sebelumnya</button>
-        <span id="pageInfo"></span>
-        <button id="nextBtn">Berikutnya</button>
-    </div>
+        <!-- PAGINATION BUTTONS -->
+        <div class="pagination-buttons">
+            <button id="prevBtn">Sebelumnya</button>
+            <span id="pageInfo"></span>
+            <button id="nextBtn">Berikutnya</button>
+        </div>
 
-    <footer>
-        <p>2025 Sistem Informasi Klinik. All rights reserved.</p>
-    </footer>
+        <footer>
+            <p>2025 Sistem Informasi Klinik. All rights reserved.</p>
+        </footer>
 
-    <script type="module">
-        import { protectPage } from "./assets/js/guard.js";
-        protectPage(['admin', 'dokter']);
-    </script>
+        <script type="module">
+            import { protectPage } from "./assets/js/guard.js";
+            protectPage(['admin', 'dokter']);
+        </script>
 
-    <script type="module" src="assets/js/supabase.js"></script>
-    <script type="module" src="assets/js/guard.js"></script>
-    <script type="module" src="assets/js/rekam-medis.js"></script>
+        <script type="module" src="assets/js/supabase.js"></script>
+        <script type="module" src="assets/js/guard.js"></script>
+        <script type="module" src="assets/js/rekam-medis.js"></script>
 
-</body>
+    </body>
 </html>

@@ -1,4 +1,3 @@
-import { db } from "./supabase.js";
 import { logout } from "./auth.js";
 
 function loadUserProfile() {

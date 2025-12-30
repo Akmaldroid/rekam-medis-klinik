@@ -1,73 +1,73 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Obat</title>
-    <link rel="stylesheet" href="assets/css/obat.css">
-</head>
-<body>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Data Obat</title>
+        <link rel="stylesheet" href="assets/css/obat.css">
+    </head>
+    <body>
 
-    <h2>
-        <img src="assets/image/obat.png" alt="Obat Icon">Data Obat</h2>
+        <h2>
+            <img src="assets/image/obat.png" alt="Obat Icon">Data Obat</h2>
 
-        <button onclick="location.href='dashboard.html'">
-            <img src="assets/image/kembali.png" alt="Home Icon">Kembali ke Dashboard</button><br><br>
-        <form id="formObat">
-            <input type="hidden" id="id_obat">
-        <label>Nama Obat</label>
-        <input type="text" id="nama_obat" required>
+            <button onclick="location.href='dashboard.html'">
+                <img src="assets/image/kembali.png" alt="Home Icon">Kembali ke Dashboard</button><br><br>
+            <form id="formObat">
+                <input type="hidden" id="id_obat">
+            <label>Nama Obat</label>
+            <input type="text" id="nama_obat" required>
 
-        <label>Jenis Obat</label>
-        <input type="text" id="jenis_obat">
+            <label>Jenis Obat</label>
+            <input type="text" id="jenis_obat">
 
-        <label>Stok</label>
-        <input type="number" id="stok"><br></br>
+            <label>Stok</label>
+            <input type="number" id="stok"><br></br>
 
-        <label>Satuan</label>
-        <input type="text" id="satuan">
+            <label>Satuan</label>
+            <input type="text" id="satuan">
 
-        <label>Harga</label>
-        <input type="number" id="harga">
+            <label>Harga</label>
+            <input type="number" id="harga">
 
-        <button type="submit">Simpan</button>
-    </form>
+            <button type="submit">Simpan</button>
+        </form>
 
-    <h3>Daftar Obat</h3>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th><th>Nama</th><th>Jenis</th><th>Stok</th><th>Satuan</th><th>Harga</th><th>Aksi</th>
-                </tr>
-            </thead>
-        <tbody id="tabelObat"></tbody>
-    </table><br>
+        <h3>Daftar Obat</h3>
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Nama</th><th>Jenis</th><th>Stok</th><th>Satuan</th><th>Harga</th><th>Aksi</th>
+                    </tr>
+                </thead>
+            <tbody id="tabelObat"></tbody>
+        </table><br>
 
-    <!-- PAGINATION CONTROL -->
-    <div class="pagination-control">
-        <label>Tampilkan:</label>
-        <select id="itemsPerPage">
-            <option value="5">5</option>
-            <option value="10" selected>10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-        </select>
-        <span>data per halaman</span>
-    </div>
+        <!-- PAGINATION CONTROL -->
+        <div class="pagination-control">
+            <label>Tampilkan:</label>
+            <select id="itemsPerPage">
+                <option value="5" selected>5</option>
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+            </select>
+            <span>data per halaman</span>
+        </div>
 
-    <!-- PAGINATION BUTTONS -->
-    <div class="pagination-buttons">
-        <button id="prevBtn">Sebelumnya</button>
-        <span id="pageInfo"></span>
-        <button id="nextBtn">Berikutnya</button>
-    </div>
+        <!-- PAGINATION BUTTONS -->
+        <div class="pagination-buttons">
+            <button id="prevBtn">Sebelumnya</button>
+            <span id="pageInfo"></span>
+            <button id="nextBtn">Berikutnya</button>
+        </div>
 
-    <footer>
-        <p>2025 Sistem Informasi Klinik. All rights reserved.</p>
-    </footer>
+        <footer>
+            <p>2025 Sistem Informasi Klinik. All rights reserved.</p>
+        </footer>
 
-    <script type="module" src="assets/js/supabase.js"></script>
-    <script type="module" src="assets/js/obat.js"></script>
+        <script type="module" src="assets/js/supabase.js"></script>
+        <script type="module" src="assets/js/obat.js"></script>
 
-</body>
+    </body>
 </html>

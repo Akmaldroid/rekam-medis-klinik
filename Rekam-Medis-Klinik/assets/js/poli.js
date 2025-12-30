@@ -1,16 +1,43 @@
 import { db } from "./supabase.js";
 
-// =====================================
-// LOAD DATA POLI
-// =====================================
+// =============== PAGINATION SETTINGS ===============
+let currentPage = 1;
+let perPage = 5;
+let totalRows = 0;
 
-async function loadPoli() {
+// ===================================================
+// LOAD DATA POLI DENGAN PAGINATION
+// ===================================================
+async function loadPoli(page = 1) {
+    currentPage = page;
+
+    // ===== HITUNG TOTAL DATA (AMAN) =====
+    const { count, error: countError } = await db
+        .from("poli")
+        .select("*", { count: "exact", head: true });
+
+    if (countError) {
+        console.error("Error count:", countError);
+        return;
+    }
+
+    totalRows = count ?? 0;
+
+    const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage - 1;
+
+    // ===== AMBIL DATA =====
     const { data, error } = await db
         .from("poli")
         .select("*")
-        .order("id_poli", { ascending: true });
+        .order("id_poli", { ascending: true })
+        .range(start, end);
+
     if (error) {
-        console.error("Select error:", error);
+        console.error("Error load:", error);
         return;
     }
 
@@ -19,6 +46,8 @@ async function loadPoli() {
 
     data.forEach(p => {
         const tr = document.createElement("tr");
+        tr.dataset.id = p.id_poli; // 🔥 penting untuk highlight
+
         tr.innerHTML = `
             <td>${p.id_poli}</td>
             <td>${p.nama_poli}</td>
@@ -31,101 +60,91 @@ async function loadPoli() {
         tabel.appendChild(tr);
     });
 
+    updatePaginationButtons();
     aktifkanTombolEdit();
     aktifkanTombolDelete();
+    animateTable();
 }
 
 loadPoli();
 
-// =====================================
-// FORM SUBMIT → ADD ATAU EDIT
-// =====================================
-
-let editId = null; // global, untuk menentukan mode edit
+// ===================================================
+// FORM SUBMIT ADD / UPDATE
+// ===================================================
+let editId = null;
 
 document.getElementById("formPoli").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const payload = {
-        nama_poli: document.getElementById("nama_poli").value,
-        lokasi: document.getElementById("lokasi").value,
+        nama_poli: nama_poli.value.trim(),
+        lokasi: lokasi.value.trim(),
     };
 
-    // ==============================
-    // MODE EDIT
-    // ==============================
+    // ===== MODE EDIT =====
     if (editId !== null) {
         const { error } = await db
             .from("poli")
             .update(payload)
             .eq("id_poli", editId);
 
-        if (error) {
-            console.error("Update error:", error);
-            alert("Gagal memperbarui data");
-            return;
-        }
+        if (error) return alert("Gagal update data");
 
         alert("Data berhasil diperbarui!");
+        const lastId = editId;
+
         editId = null;
         e.target.reset();
-        loadPoli();
+        await loadPoli(currentPage);
+        highlightRow(lastId);
         return;
     }
 
-    // ==============================
-    // MODE TAMBAH
-    // ==============================
-    const { error } = await db.from("poli").insert([payload]);
+    // ===== MODE TAMBAH =====
+    const { data, error } = await db
+        .from("poli")
+        .insert([payload])
+        .select()
+        .single();
 
-    if (error) {
-        console.error("Insert error:", error);
-        alert("Gagal menambahkan data");
-        return;
-    }
+    if (error) return alert("Gagal menambahkan data");
 
     alert("Data berhasil ditambahkan!");
     e.target.reset();
-    loadPoli();
+    await loadPoli(1);
+    highlightRow(data.id_poli);
 });
 
-// =====================================
-// DELETE POLI
-// =====================================
-
+// ===================================================
+// DELETE PASIEN
+// ===================================================
 function aktifkanTombolDelete() {
     document.querySelectorAll(".btnDelete").forEach(btn => {
-        btn.addEventListener("click", async () => {
+        btn.onclick = async () => {
             const id = btn.dataset.id;
-
-            if (!confirm("Yakin ingin menghapus data ini?")) return;
+            if (!confirm("Hapus data ini?")) return;
 
             const { error } = await db
                 .from("poli")
                 .delete()
                 .eq("id_poli", id);
 
-            if (error) {
-                console.error("Delete error:", error);
-                alert("Gagal menghapus data");
-                return;
-            }
+            if (error) return alert("Gagal menghapus data");
 
-            alert("Data berhasil dihapus!");
-            loadPoli();
-        });
+            alert("Data terhapus!");
+            loadPoli(currentPage);
+        };
     });
 }
 
-// =====================================
-// EDIT POLI
-// =====================================
-
+// ===================================================
+// EDIT PASIEN
+// ===================================================
 function aktifkanTombolEdit() {
     document.querySelectorAll(".btnEdit").forEach(btn => {
-        btn.addEventListener("click", async () => {
+        btn.onclick = async () => {
             const id = btn.dataset.id;
-            editId = id; // set mode jadi EDIT
+            editId = id;
 
             const { data, error } = await db
                 .from("poli")
@@ -133,38 +152,65 @@ function aktifkanTombolEdit() {
                 .eq("id_poli", id)
                 .single();
 
-            if (error) {
-                console.error("Fetch error:", error);
-                return;
-            }
+            if (error) return alert("Data tidak ditemukan");
 
-            // Isi form dengan data lama
-            document.getElementById("nama_poli").value = data.nama_poli;
-            document.getElementById("lokasi").value = data.lokasi;
-        });
+            nama_poli.value = data.nama_poli;
+            lokasi.value = data.lokasi;
+        };
     });
 }
 
-// Animasi fade table saat data di-load
-document.addEventListener("DOMContentLoaded", () => {
-    const tbl = document.querySelector("table");
+// ===================================================
+// PAGE BUTTON CONTROL
+// ===================================================
+function updatePaginationButtons() {
+    const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
 
-    if (tbl) {
-        tbl.style.opacity = 0;
-        setTimeout(() => {
-            tbl.style.transition = "0.6s";
-            tbl.style.opacity = 1;
-        }, 150);
-    }
+    document.getElementById("pageInfo").innerText =
+        `Halaman ${currentPage} dari ${totalPages}`;
+
+    document.getElementById("prevBtn").disabled = currentPage <= 1;
+    document.getElementById("nextBtn").disabled = currentPage >= totalPages;
+}
+
+document.getElementById("prevBtn").onclick = () => {
+    if (currentPage > 1) loadPoli(currentPage - 1);
+};
+
+document.getElementById("nextBtn").onclick = () => {
+    loadPoli(currentPage + 1);
+};
+
+// ===================================================
+// PERPAGE DROPDOWN
+// ===================================================
+document.getElementById("itemsPerPage").addEventListener("change", (e) => {
+    perPage = Number(e.target.value);
+    currentPage = 1;   // 🔥 WAJIB reset page
+    loadPoli(1);
 });
 
 
-// Tambahan animasi masuk tabel
-export function applyRowAnimation() {
-    document.querySelectorAll("tbody tr").forEach((row, i) => {
+// ===================================================
+// UI ENHANCEMENT
+// ===================================================
+function animateTable() {
+    document.querySelectorAll("#tabelPoli tr").forEach((row, i) => {
         row.style.opacity = 0;
-        row.style.animation = `fadeIn 0.4s ease forwards`;
-        row.style.animationDelay = `${i * 0.05}s`;
+        setTimeout(() => {
+            row.style.transition = "2s";
+            row.style.opacity = 1;
+        }, 50 * i);
     });
 }
-applyRowAnimation();
+
+function highlightRow(id) {
+    const row = document.querySelector(`#tabelPoli tr[data-id='${id}']`);
+    if (!row) return;
+
+    row.style.background = "#e0f7ff";
+    setTimeout(() => {
+        row.style.transition = "1s";
+        row.style.background = "";
+    }, 1000);
+}

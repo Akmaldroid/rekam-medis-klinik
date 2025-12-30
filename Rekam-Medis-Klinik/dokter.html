@@ -1,59 +1,76 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Dokter</title>
-    <link rel="stylesheet" href="assets/css/dokter.css">
-</head>
-<body>
+    <html lang="id">
+    <head>
+        <meta charset="UTF-8">
+        <title>Data Dokter</title>
+        <link rel="stylesheet" href="assets/css/dokter.css">
+    </head>
+    <body>
 
-    <h2>
-        <img src="assets/image/dokter.png" alt="Dokter Icon">Data Dokter</h2>
+        <h2>
+            <img src="assets/image/dokter.png" alt="Dokter Icon">Data Dokter</h2>
 
-        <button class="btn-back" onclick="location.href='dashboard.html'">
-            <img src="assets/image/kembali.png">Kembali ke Dashboard
-        </button>
+            <button class="btn-back" onclick="location.href='dashboard.html'">
+                <img src="assets/image/kembali.png">Kembali ke Dashboard
+            </button>
 
-        <form id="formDokter">
-            <input type="hidden" id="id_dokter">
+            <form id="formDokter">
+                <input type="hidden" id="id_dokter">
 
-            <label>Nama Dokter</label>
-            <input type="text" id="nama_dokter" required>
+                <label>Nama Dokter</label>
+                <input type="text" id="nama_dokter" required>
 
-            <label>Spesialisasi</label>
-            <input type="text" id="spesialisasi" required>
+                <label>Spesialisasi</label>
+                <input type="text" id="spesialisasi" required>
 
-            <label>No STR</label>
-            <input type="text" id="no_str" required>
+                <label>No STR</label>
+                <input type="text" id="no_str" required>
 
-            <label>No Telp</label>
-            <input type="text" id="no_telp" required>
+                <label>No Telp</label>
+                <input type="text" id="no_telp" required>
 
-            <button type="submit">Simpan</button>
-        </form>
+                <button type="submit">Simpan</button>
+            </form>
 
-    <h3>Daftar Dokter</h3>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th><th>Nama</th><th>Spesialis</th><th>No STR</th><th>No Telp</th><th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody id="tabelDokter"></tbody>
-    </table>
+        <h3>Daftar Dokter</h3>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th><th>Nama</th><th>Spesialis</th><th>No STR</th><th>No Telp</th><th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody id="tabelDokter"></tbody>
+        </table>
 
-    <footer>
-        <p>© 2025 Sistem Rekam Medis Klinik</p>
-    </footer>
+        <!-- PAGINATION CONTROL -->
+        <div class="pagination-control">
+            <label>Tampilkan:</label>
+            <select id="perPageSelect">
+                <option value="10">10</option>
+                <option value="25">25</option>
+                <option value="50">50</option>
+            </select>
+            <span>data per halaman</span>
+        </div>
+        <!-- PAGINATION BUTTONS -->
+        <div class="pagination-buttons">
+            <button id="prevBtn">Sebelumnya</button>
+            <span id="pageInfo"></span>
+            <button id="nextBtn">Berikutnya</button>
+        </div>
 
-    <script type="module">
-        import { protectPage } from "./assets/js/guard.js";
-        protectPage(['admin, dokter']);
-    </script>
+        <footer>
+            <p>© 2025 Sistem Rekam Medis Klinik</p>
+        </footer>
 
-    <script type="module" src="assets/js/supabase.js"></script>
-    <script type="module" src="assets/js/guard.js"></script>
-    <script type="module" src="assets/js/dokter.js"></script>
+        <script type="module">
+            import { protectPage } from "./assets/js/guard.js";
+            protectPage(['admin, dokter']);
+        </script>
 
-</body>
+        <script type="module" src="assets/js/supabase.js"></script>
+        <script type="module" src="assets/js/guard.js"></script>
+        <script type="module" src="assets/js/dokter.js"></script>
+
+    </body>
 </html>
