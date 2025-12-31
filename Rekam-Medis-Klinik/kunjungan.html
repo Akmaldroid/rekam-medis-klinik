@@ -7,15 +7,12 @@
     </head>
 
     <body>
-
         <h2>
             <img src="assets/image/kunjungan.png" alt="Kunjungan Icon">Form Kunjungan</h2>
-
         <button onclick="window.location.href='dashboard.html'">
             <img src="assets/image/kembali.png" alt="Home Icon">Kembali ke Dashboard</button><br><br>
 
         <form id="formKunjungan">
-
             <!-- 🔥 AUTOCOMPLETE PASIEN -->
             <label>Pasien</label><br>
             <input type="text" id="searchPasien" placeholder="Ketik nama pasien..." autocomplete="off">
@@ -23,27 +20,22 @@
 
             <!-- Hidden: menyimpan ID pasien -->
             <input type="hidden" id="id_pasien">
-
             <br><br>
 
             <label>Dokter</label>
             <select id="id_dokter"></select>
-
             <br><br>
 
             <label>Poli</label>
             <select id="id_poli"></select>
-
             <br><br>
 
             <label>Tanggal Kunjungan</label>
             <input type="date" id="tanggal_kunjungan">
-
             <br><br>
 
             <label>Keluhan</label>
             <textarea id="keluhan"></textarea>
-
             <br><br>
 
             <button id="submitBtn" type="submit">Simpan</button>
@@ -88,6 +80,5 @@
 
         <script type="module" src="assets/js/supabase.js"></script>
         <script type="module" src="assets/js/kunjungan.js"></script>
-
     </body>
 </html>

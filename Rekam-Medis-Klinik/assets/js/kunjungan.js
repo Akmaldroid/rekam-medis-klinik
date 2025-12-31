@@ -4,24 +4,32 @@ import { db } from "./supabase.js";
 // GLOBAL DATA
 // ==============================
 let pasienList = [];
-let editModeID = null; // <- penanda mode edit
+let editModeID = null;
+
+// ===== PAGINATION =====
+let currentPage = 1;
+let perPage = 10;
+let totalRows = 0;
 
 // ==============================
 // LOAD DROPDOWN PASIEN, DOKTER, POLI
 // ==============================
 async function loadDropdown() {
 
-    // Pasien
-    const { data: pasien } = await db.from("pasien").select("id_pasien, nama_pasien");
-    pasienList = pasien;
+    const { data: pasien } = await db
+        .from("pasien")
+        .select("id_pasien, nama_pasien");
+    pasienList = pasien || [];
 
-    // Dokter
-    const { data: dokter } = await db.from("dokter").select("id_dokter, nama_dokter");
+    const { data: dokter } = await db
+        .from("dokter")
+        .select("id_dokter, nama_dokter");
     document.getElementById("id_dokter").innerHTML =
         dokter.map(d => `<option value="${d.id_dokter}">${d.nama_dokter}</option>`).join("");
 
-    // Poli
-    const { data: poli } = await db.from("poli").select("id_poli, nama_poli");
+    const { data: poli } = await db
+        .from("poli")
+        .select("id_poli, nama_poli");
     document.getElementById("id_poli").innerHTML =
         poli.map(p => `<option value="${p.id_poli}">${p.nama_poli}</option>`).join("");
 }
@@ -29,15 +37,14 @@ async function loadDropdown() {
 loadDropdown();
 
 // ==============================
-// AUTOCOMPLETE PASIEN
+// AUTOCOMPLETE PASIEN (TETAP)
 // ==============================
 const searchInput = document.getElementById("searchPasien");
 const hasilList = document.getElementById("autocompleteList");
 
 searchInput.addEventListener("input", () => {
-    const keyword = searchInput.value.toLowerCase();
-
-    if (keyword.trim() === "") {
+    const keyword = searchInput.value.toLowerCase().trim();
+    if (!keyword) {
         hasilList.style.display = "none";
         return;
     }
@@ -46,46 +53,58 @@ searchInput.addEventListener("input", () => {
         p.nama_pasien.toLowerCase().includes(keyword)
     );
 
-    hasilList.innerHTML = hasil
-        .map(p => `
-            <div class="autocomplete-item" data-id="${p.id_pasien}" data-name="${p.nama_pasien}">
-                ${p.nama_pasien}
-            </div>
-        `)
-        .join("");
+    hasilList.innerHTML = hasil.map(p => `
+        <div class="autocomplete-item" data-id="${p.id_pasien}" data-name="${p.nama_pasien}">
+            ${p.nama_pasien}
+        </div>
+    `).join("");
 
-    hasilList.style.display = hasil.length > 0 ? "block" : "none";
+    hasilList.style.display = hasil.length ? "block" : "none";
 
     document.querySelectorAll(".autocomplete-item").forEach(item => {
-        item.addEventListener("click", () => {
-            const id = item.dataset.id;
-            const name = item.dataset.name;
-
-            searchInput.value = name;
-            document.getElementById("id_pasien").value = id;
-
+        item.onclick = () => {
+            document.getElementById("id_pasien").value = item.dataset.id;
+            searchInput.value = item.dataset.name;
             hasilList.style.display = "none";
-        });
+        };
     });
 });
 
 // ==============================
-// LOAD LIST KUNJUNGAN
+// LOAD LIST KUNJUNGAN + PAGINATION
 // ==============================
-async function loadKunjungan() {
+async function loadKunjungan(page = 1) {
+    currentPage = page;
+
+    // ===== COUNT =====
+    const { count } = await db
+        .from("kunjungan")
+        .select("*", { count: "exact", head: true });
+
+    totalRows = count ?? 0;
+    const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
+    if (currentPage > totalPages) currentPage = totalPages;
+
+    const start = (currentPage - 1) * perPage;
+    const end = start + perPage - 1;
+
+    // ===== DATA =====
     const { data, error } = await db
         .from("kunjungan")
         .select(`
             id_kunjungan,
-            id_pasien,
-            id_dokter,
-            id_poli,
             tanggal_kunjungan,
             keluhan,
             pasien (nama_pasien),
             poli (nama_poli)
         `)
-        .order("id_kunjungan", { ascending: true });
+        .order("id_kunjungan", { ascending: true })
+        .range(start, end);
+
+    if (error) {
+        console.error(error);
+        return;
+    }
 
     const tabel = document.getElementById("tabelKunjungan");
     tabel.innerHTML = "";
@@ -99,101 +118,63 @@ async function loadKunjungan() {
             <td>${k.poli?.nama_poli || "-"}</td>
             <td>${k.keluhan}</td>
             <td>
-                <button data-id="${k.id_kunjungan}" class="editKunjungan">Edit</button>
-                <button data-id="${k.id_kunjungan}" class="hapusKunjungan">Hapus</button>
+                <button class="editKunjungan" data-id="${k.id_kunjungan}">Edit</button>
+                <button class="hapusKunjungan" data-id="${k.id_kunjungan}">Hapus</button>
             </td>
         `;
         tabel.appendChild(tr);
     });
 
-    activeDelete();
+    updatePagination();
     activeEdit();
+    activeDelete();
+    animateTable();
 }
 
 loadKunjungan();
 
 // ==============================
-// TAMBAH / UPDATE KUNJUNGAN
+// PAGINATION CONTROL
 // ==============================
-document.getElementById("formKunjungan").addEventListener("submit", async (e) => {
-    e.preventDefault();
+function updatePagination() {
+    const totalPages = Math.max(1, Math.ceil(totalRows / perPage));
+    document.getElementById("pageInfo").innerText =
+        `Halaman ${currentPage} dari ${totalPages}`;
 
-    const idPasien = document.getElementById("id_pasien").value;
+    document.getElementById("prevBtn").disabled = currentPage <= 1;
+    document.getElementById("nextBtn").disabled = currentPage >= totalPages;
+}
 
-    if (!idPasien) {
-        alert("Pilih pasien dulu melalui pencarian.");
-        return;
-    }
+document.getElementById("prevBtn").onclick = () => {
+    if (currentPage > 1) loadKunjungan(currentPage - 1);
+};
 
-    const payload = {
-        id_pasien: idPasien,
-        id_dokter: document.getElementById("id_dokter").value,
-        id_poli: document.getElementById("id_poli").value,
-        tanggal_kunjungan: document.getElementById("tanggal_kunjungan").value,
-        keluhan: document.getElementById("keluhan").value,
-    };
+document.getElementById("nextBtn").onclick = () => {
+    loadKunjungan(currentPage + 1);
+};
 
-    // ========= MODE UPDATE =========
-    if (editModeID !== null) {
-        const { error } = await db
-            .from("kunjungan")
-            .update(payload)
-            .eq("id_kunjungan", editModeID);
-
-        if (error) {
-            console.error("Update error:", error);
-            alert("Gagal memperbarui kunjungan");
-            return;
-        }
-
-        alert("Kunjungan berhasil diperbarui!");
-
-        editModeID = null;
-        document.getElementById("submitBtn").textContent = "Simpan";
-        e.target.reset();
-        searchInput.value = "";
-
-        loadKunjungan();
-        return;
-    }
-
-    // ========= MODE INSERT =========
-    const { error } = await db.from("kunjungan").insert([payload]);
-
-    if (error) {
-        console.error("Insert error:", error);
-        alert("Gagal menambahkan kunjungan");
-        return;
-    }
-
-    alert("Kunjungan berhasil ditambahkan!");
-    loadKunjungan();
-    e.target.reset();
-    searchInput.value = "";
+document.getElementById("perPageSelect").addEventListener("change", e => {
+    perPage = Number(e.target.value);
+    currentPage = 1;
+    loadKunjungan(1);
 });
 
 // ==============================
-// HAPUS KUNJUNGAN
+// DELETE & EDIT (TIDAK DIUBAH)
 // ==============================
 function activeDelete() {
     document.querySelectorAll(".hapusKunjungan").forEach(btn => {
-        btn.addEventListener("click", async () => {
-            const id = btn.dataset.id;
-
-            if (!confirm("Yakin ingin menghapus kunjungan ini?")) return;
-
-            await db.from("kunjungan").delete().eq("id_kunjungan", id);
-            loadKunjungan();
-        });
+        btn.onclick = async () => {
+            if (!confirm("Yakin hapus kunjungan?")) return;
+            await db.from("kunjungan").delete().eq("id_kunjungan", btn.dataset.id);
+            loadKunjungan(currentPage);
+        };
     });
 }
 
-// ==============================
-// EDIT KUNJUNGAN
-// ==============================
 function activeEdit() {
     document.querySelectorAll(".editKunjungan").forEach(btn => {
-        btn.addEventListener("click", async () => {
+        btn.onclick = async () => {
             const id = btn.dataset.id;
             editModeID = id;
 
@@ -205,44 +186,41 @@ function activeEdit() {
 
             if (!data) return;
 
-            // Isi ke form
             document.getElementById("id_pasien").value = data.id_pasien;
-
-            const pasien = pasienList.find(p => p.id_pasien == data.id_pasien);
-            if (pasien) searchInput.value = pasien.nama_pasien;
-
             document.getElementById("id_dokter").value = data.id_dokter;
             document.getElementById("id_poli").value = data.id_poli;
             document.getElementById("tanggal_kunjungan").value = data.tanggal_kunjungan;
             document.getElementById("keluhan").value = data.keluhan;
 
-            // Ubah tombol submit
+            const pasien = pasienList.find(p => p.id_pasien == data.id_pasien);
+            if (pasien) searchInput.value = pasien.nama_pasien;
+
             document.getElementById("submitBtn").textContent = "Update Kunjungan";
-
-            // Auto scroll ke form
             window.scrollTo({ top: 0, behavior: "smooth" });
-        });
+        };
     });
 }
 
-// Efek halus saat user memilih item autocomplete
-export function animateSelect(el) {
-    el.style.transition = "0.25s";
-    el.style.background = "#d8f2ff";
+// ===================================================
+// UI ENHANCEMENT
+// ===================================================
+function animateTable() {
+    document.querySelectorAll("#tabelKunjungan tr").forEach((row, i) => {
+        row.style.opacity = 0;
+        setTimeout(() => {
+            row.style.transition = "1s";
+            row.style.opacity = 1;
+        }, 50 * i);
+    });
+}
 
+function highlightRow(id) {
+    const row = document.querySelector(`#tabelKunjungan tr[data-id='${id}']`);
+    if (!row) return;
+
+    row.style.background = "#e0f7ff";
     setTimeout(() => {
-        el.style.background = "white";
-    }, 250);
+        row.style.transition = "1s";
+        row.style.background = "";
+    }, 1000);
 }
-
-// Efek input fokus glow
-document.querySelectorAll("input, select, textarea").forEach(field => {
-    field.addEventListener("focus", () => {
-        field.style.boxShadow = "0 0 0 5px rgba(10,150,220,0.25)";
-    });
-
-    field.addEventListener("blur", () => {
-        field.style.boxShadow = "none";
-    });
-});
-animateSelect();
